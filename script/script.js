@@ -31,30 +31,49 @@ const initialCards = [
 
 import { Card } from "./Card.js";
 import { openModal, closeModal } from "./utils.js";
-import { FormValidator } from "./validate.js";
+import { FormValidator } from "./FormValidator.js";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
-const formValidation = new FormValidator(
-  {
-    formSelector: ".form",
-    inputSelector: ".form__input",
-    submitButtonSelector: ".form__button",
-    inactiveButtonClass: "form__button_inactive",
-    inputErrorClass: "form__input-error_active",
-    errorClass: "form__error-message_active",
-  },
-  document.querySelectorAll(".form")
+const validationConfig = {
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__button",
+  inactiveButtonClass: "form__button_inactive",
+  inputErrorClass: "form__input-error_active",
+  errorClass: "form__error-message_active",
+};
+
+const cardFormValidator = new FormValidator(
+  validationConfig,
+  document.forms.AddPlace
 );
 
-formValidation.enableValidation();
+cardFormValidator.enableValidation();
 
-//////////// Cloning Card's Template \\\\\\\\\\\\
+const editFormValidator = new FormValidator(
+  validationConfig,
+  document.forms.NameTag
+);
 
-const cardTemplate = document.querySelector(".card__template");
-const cloneCardTemplate = cardTemplate.content.cloneNode(true);
+editFormValidator.enableValidation();
 
-const elementsItem = cloneCardTemplate.querySelector(".elements__item");
+//////////// Card Image Preview Function \\\\\\\\\\\\
+
+const cardImageOverlay = document.querySelector(".modal-preview");
+const cardImagePreview = document.querySelector(".modal-preview__image");
+const cardImagePreviewTitle = document.querySelector(".modal-preview__title");
+
+const handleOpenImagePreview = (image) => {
+  image.addEventListener("click", () => {
+    openModal(cardImageOverlay);
+    cardImagePreview.src = image.src;
+    cardImagePreview.alt = image.alt;
+    cardImagePreviewTitle.textContent = image.alt;
+  });
+};
+
+export { handleOpenImagePreview };
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -69,8 +88,6 @@ const editFormName = document.querySelector("input[name='name']");
 const editFormTag = document.querySelector("input[name='tag']");
 
 const editForm = document.querySelector(".modal__form[name='NameTag']");
-
-const cardsContainer = document.querySelector(".elements__list");
 
 function submitEditForm(evt) {
   evt.preventDefault();
@@ -93,6 +110,16 @@ function openEditModal() {
 
 editUnrollButton.addEventListener("click", openEditModal);
 
+//////////// Render Card Function \\\\\\\\\\\\
+
+const cardsContainer = document.querySelector(".elements__list");
+const cardTemplate = document.querySelector(".card__template");
+
+const renderCard = (link, name) => {
+  const card = new Card(link, name);
+  cardsContainer.prepend(card.renderCard(cardTemplate));
+};
+
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
 const addCardModal = document.querySelector(".modal-add");
@@ -109,13 +136,12 @@ const addCardFormInputList = [addFormTitle, addFormLink];
 function submitAddForm(evt) {
   evt.preventDefault();
 
-  const card = new Card(addFormLink.value, addFormTitle.value);
-  cardsContainer.prepend(card.renderCard(cardTemplate));
+  renderCard(addFormLink.value, addFormTitle.value);
 
   addCardForm.reset();
   closeModal(addCardModal);
   const submitButtonClass = { inactiveButtonClass: "form__button_inactive" };
-  formValidation.toggleButtonState(
+  cardFormValidator.toggleButtonState(
     addCardFormInputList,
     addCardFormSubmitButton,
     submitButtonClass
@@ -131,6 +157,5 @@ addCardForm.addEventListener("submit", submitAddForm);
 //////////// Initial Cards Creating \\\\\\\\\\\\
 
 initialCards.forEach((item) => {
-  const card = new Card(item.link, item.name);
-  cardsContainer.prepend(card.renderCard(cardTemplate));
+  renderCard(item.link, item.name);
 });
