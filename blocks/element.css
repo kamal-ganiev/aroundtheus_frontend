@@ -1,0 +1,79 @@
+.element {
+  position: relative;
+  width: 282px;
+  background-color: #fff;
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  grid-template-areas:
+    "image image"
+    "title button";
+}
+
+.element__image {
+  display: block;
+  width: 282px;
+  height: 282px;
+  margin: 0;
+  object-fit: cover;
+  grid-area: image;
+  cursor: zoom-in;
+}
+
+.element__title {
+  width: 220px;
+  margin: 25px auto 25px 21px;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  grid-area: title;
+}
+
+.element__like-button {
+  margin: 30px 18px 30px auto;
+  width: 21px;
+  height: 19px;
+  cursor: pointer;
+  transition: 0.3s;
+  grid-area: button;
+  border: none;
+  background-image: url("../images/elements/__like-button_active.svg");
+  background-color: rgba(255, 255, 255, 0);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.element__like-button_not-active {
+  background-image: url("../images/elements/__like-button.svg");
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.element__like-button:hover {
+  opacity: 0.5;
+}
+
+.element__remove-button {
+  margin: 0;
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  height: 19.3px;
+  width: 18px;
+  background-image: url("../images/elements/__remove-button.svg");
+  background-color: rgba(255, 255, 255, 0);
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.element__remove-button:hover {
+  opacity: 0.6;
+}

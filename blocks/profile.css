@@ -1,0 +1,137 @@
+.profile {
+  margin: 0 auto 50px;
+  max-width: 880px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.profile__avatar {
+  width: 120px;
+  border-radius: 50%;
+  margin: 0 50px 0 0;
+}
+
+.profile__info {
+  display: grid;
+  grid-template-areas:
+    "name button"
+    "tag .";
+}
+
+.profile__name {
+  grid-area: name;
+  margin: 0 18px 0 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 48px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 448px;
+}
+
+.profile__tag {
+  grid-area: tag;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  margin: 16px auto 0 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 448px;
+}
+
+.profile__edit-button {
+  margin: auto 0 9px;
+  grid-area: button;
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url("../images/profile/__edit-button.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+}
+
+.profile__add-button {
+  margin: 0 0 0 auto;
+  width: 150px;
+  height: 50px;
+  fill: #fff;
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid #ffffff;
+  border-radius: 2px;
+  transition: 0.3s;
+  cursor: pointer;
+  background-image: url("../images/profile/__add-button.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 22px;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 882px) {
+  .profile {
+    margin-bottom: 36px;
+    max-width: 282px;
+    flex-direction: column;
+  }
+
+  .profile__avatar {
+    margin: 0 auto 30px;
+  }
+
+  .profile__info {
+    grid-template-areas:
+      "name button"
+      "tag tag";
+  }
+
+  .profile__name {
+    margin-right: 10px;
+    font-size: 22px;
+    line-height: 27px;
+    text-align: center;
+  }
+
+  .profile__edit-button {
+    margin-bottom: 5px;
+    width: 18px;
+    height: 18px;
+    background-size: 7.5px;
+  }
+
+  .profile__tag {
+    margin: 9px auto 36px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .profile__add-button {
+    width: 100%;
+    border-radius: 0;
+    background-size: 16px;
+  }
+}
