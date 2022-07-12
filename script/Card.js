@@ -15,8 +15,8 @@ class Card {
     this._imageElement.addEventListener("click", () =>
       this._handleOpenImagePreview(this._imageElement)
     );
-    likeButton.addEventListener("click", this._toggleLikeButton);
-    removeButton.addEventListener("click", this._removeCard);
+    this._likeButton.addEventListener("click", this._toggleLikeButton);
+    this._removeButton.addEventListener("click", this._removeCard);
   }
 
   _toggleLikeButton(evt) {
@@ -39,14 +39,13 @@ class Card {
 
   renderCard() {
     this._element = this._getCardTemplate();
+    this._likeButton = this._element.querySelector(".element__like-button");
+    this._removeButton = this._element.querySelector(".element__remove-button");
     this._imageElement = this._element.querySelector(".element__image");
     this._imageElement.src = this._image;
     this._imageElement.alt = this._title;
     this._element.querySelector(".element__title").textContent = this._title;
-    this._setEventListeners(
-      this._element.querySelector(".element__like-button"),
-      this._element.querySelector(".element__remove-button")
-    );
+    this._setEventListeners();
 
     return this._element;
   }
