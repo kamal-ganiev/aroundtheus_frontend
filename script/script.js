@@ -118,3 +118,19 @@ initialCards.forEach((item) => {
   const card = new Card(item.link, item.name);
   cardsContainer.prepend(card.renderCard(cardTemplate));
 });
+
+//////////// Forms Validation \\\\\\\\\\\\
+
+const formValidation = new FormValidator(
+  {
+    formSelector: ".form",
+    inputSelector: ".form__input",
+    submitButtonSelector: ".form__button",
+    inactiveButtonClass: "form__button_inactive",
+    inputErrorClass: "form__input-error_active",
+    errorClass: "form__error-message_active",
+  },
+  document.querySelectorAll(".form")
+);
+
+formValidation.enableValidation();
