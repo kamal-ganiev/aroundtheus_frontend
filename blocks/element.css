@@ -43,14 +43,14 @@
   transition: 0.3s;
   grid-area: button;
   border: none;
-  background-image: url("../images/elements/__like-button_active.svg");
+  background-image: url("../images/elements/__like-btn_active.svg");
   background-color: rgba(255, 255, 255, 0);
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .element__like-button_not-active {
-  background-image: url("../images/elements/__like-button.svg");
+  background-image: url("../images/elements/__like-btn.svg");
   background-color: rgba(255, 255, 255, 0);
 }
 
@@ -65,7 +65,7 @@
   right: 15px;
   height: 19.3px;
   width: 18px;
-  background-image: url("../images/elements/__remove-button.svg");
+  background-image: url("../images/elements/__remove-btn.svg");
   background-color: rgba(255, 255, 255, 0);
   background-position: center;
   background-repeat: no-repeat;

@@ -54,7 +54,7 @@
   height: 24px;
   fill: #fff;
   background-color: rgba(0, 0, 0, 0);
-  background-image: url("../images/profile/__edit-button.svg");
+  background-image: url("../images/profile/__edit-btn.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 10px;
@@ -82,7 +82,7 @@
   border-radius: 2px;
   transition: 0.3s;
   cursor: pointer;
-  background-image: url("../images/profile/__add-button.svg");
+  background-image: url("../images/profile/__add-btn.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 22px;

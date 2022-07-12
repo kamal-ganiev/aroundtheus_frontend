@@ -100,7 +100,7 @@
   right: -40px;
   cursor: pointer;
   transition: 0.3s;
-  background-image: url("../images/modal/__close-button.svg");
+  background-image: url("../images/modal/__close-btn.svg");
   background-position: center;
   background-size: cover;
   border: none;
