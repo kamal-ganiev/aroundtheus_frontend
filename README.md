@@ -30,4 +30,4 @@ Have fun with JavaScript!
 
 **Website**
 
-- [Link to completed project](https://kamal-ganiev.github.io/web_project_4/)
+- [Link to completed project](https://kamal-ganiev.github.io/se_project_aroundtheus/)
