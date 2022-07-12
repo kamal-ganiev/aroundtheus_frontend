@@ -2,6 +2,12 @@ class FormValidator {
   constructor(validationSettings, form) {
     this._settings = validationSettings;
     this._form = form;
+    this._inputList = Array.from(
+      this._form.querySelectorAll(this._settings.inputSelector)
+    );
+    this._buttonElement = this._form.querySelector(
+      this._settings.submitButtonSelector
+    );
   }
 
   _showValidationMessage(inputElement, formElement, errorElement) {
@@ -31,40 +37,34 @@ class FormValidator {
     }
   }
 
-  _hasInvalidInput = (inputList) => {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput = () => {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
-  _hasValid(inputList) {
-    return inputList.some((inputElement) => {
+  _hasValid() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
-  toggleButtonState(inputList, buttonElement) {
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._settings.inactiveButtonClass);
-      buttonElement.disabled = true;
+  toggleButtonState() {
+    if (this._hasInvalidInput(this._inputList)) {
+      this._buttonElement.classList.add(this._settings.inactiveButtonClass);
+      this._buttonElement.disabled = true;
     } else {
-      buttonElement.classList.remove(this._settings.inactiveButtonClass);
-      buttonElement.disabled = false;
+      this._buttonElement.classList.remove(this._settings.inactiveButtonClass);
+      this._buttonElement.disabled = false;
     }
   }
 
   _setEventListeners() {
-    const inputList = Array.from(
-      this._form.querySelectorAll(this._settings.inputSelector)
-    );
-    const buttonElement = this._form.querySelector(
-      this._settings.submitButtonSelector
-    );
-    this.toggleButtonState(inputList, buttonElement, this._settings);
-    inputList.forEach((inputElement) => {
+    this.toggleButtonState();
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._isValid(this._form, inputElement, this._settings);
-        this.toggleButtonState(inputList, buttonElement, this._settings);
+        this.toggleButtonState();
       });
     });
   }

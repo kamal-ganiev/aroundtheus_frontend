@@ -65,15 +65,11 @@ const cardImagePreview = document.querySelector(".modal-preview__image");
 const cardImagePreviewTitle = document.querySelector(".modal-preview__title");
 
 const handleOpenImagePreview = (image) => {
-  image.addEventListener("click", () => {
-    openModal(cardImageOverlay);
-    cardImagePreview.src = image.src;
-    cardImagePreview.alt = image.alt;
-    cardImagePreviewTitle.textContent = image.alt;
-  });
+  openModal(cardImageOverlay);
+  cardImagePreview.src = image.src;
+  cardImagePreview.alt = image.alt;
+  cardImagePreviewTitle.textContent = image.alt;
 };
-
-export { handleOpenImagePreview };
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -113,11 +109,10 @@ editUnrollButton.addEventListener("click", openEditModal);
 //////////// Render Card Function \\\\\\\\\\\\
 
 const cardsContainer = document.querySelector(".elements__list");
-const cardTemplate = document.querySelector(".card__template");
 
 const renderCard = (link, name) => {
-  const card = new Card(link, name);
-  cardsContainer.prepend(card.renderCard(cardTemplate));
+  const card = new Card(link, name, handleOpenImagePreview, ".card__template");
+  cardsContainer.prepend(card.renderCard());
 };
 
 //////////// Add Card Popup Form \\\\\\\\\\\\
@@ -128,10 +123,7 @@ const addFormTitle = document.querySelector("input[name='title']");
 const addFormLink = document.querySelector("input[name='link']");
 
 const addUnrollButton = document.querySelector(".profile__add-button");
-const addCardFormSubmitButton = document.querySelector(".modal-add-button");
 const addCardForm = document.forms.AddPlace;
-
-const addCardFormInputList = [addFormTitle, addFormLink];
 
 function submitAddForm(evt) {
   evt.preventDefault();
@@ -140,12 +132,7 @@ function submitAddForm(evt) {
 
   addCardForm.reset();
   closeModal(addCardModal);
-  const submitButtonClass = { inactiveButtonClass: "form__button_inactive" };
-  cardFormValidator.toggleButtonState(
-    addCardFormInputList,
-    addCardFormSubmitButton,
-    submitButtonClass
-  );
+  cardFormValidator.toggleButtonState();
 }
 
 addUnrollButton.addEventListener("click", function () {

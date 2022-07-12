@@ -1,13 +1,20 @@
-import { handleOpenImagePreview } from "./script.js";
-
 class Card {
-  constructor(cardImage, cardTitle) {
+  constructor(
+    cardImage,
+    cardTitle,
+    handleOpenImagePreview,
+    cardTemplateSelector
+  ) {
     this._image = cardImage;
     this._title = cardTitle;
+    this._handleOpenImagePreview = handleOpenImagePreview;
+    this._cardTemplateSelector = cardTemplateSelector;
   }
 
-  _setEventListeners(image, likeButton, removeButton) {
-    handleOpenImagePreview(image);
+  _setEventListeners(likeButton, removeButton) {
+    this._imageElement.addEventListener("click", () =>
+      this._handleOpenImagePreview(this._imageElement)
+    );
     likeButton.addEventListener("click", this._toggleLikeButton);
     removeButton.addEventListener("click", this._removeCard);
   }
@@ -19,24 +26,24 @@ class Card {
 
   _removeCard = (evt) => {
     const eventTarget = evt.target;
-    eventTarget.closest(".elements__item").remove();
+    this._element.remove();
     this._element = null;
   };
 
-  _getCardTemplate(cardTemplate) {
-    const cloneCardTemplate = cardTemplate.content.cloneNode(true);
-    const elementsItem = cloneCardTemplate.querySelector(".elements__item");
-    return document.importNode(elementsItem, true);
+  _getCardTemplate() {
+    return document
+      .querySelector(this._cardTemplateSelector)
+      .content.cloneNode(true)
+      .querySelector(".elements__item");
   }
 
-  renderCard(cardTemplate) {
-    this._element = this._getCardTemplate(cardTemplate);
-    const imageElement = this._element.querySelector(".element__image");
-    imageElement.src = this._image;
-    imageElement.alt = this._title;
+  renderCard() {
+    this._element = this._getCardTemplate();
+    this._imageElement = this._element.querySelector(".element__image");
+    this._imageElement.src = this._image;
+    this._imageElement.alt = this._title;
     this._element.querySelector(".element__title").textContent = this._title;
     this._setEventListeners(
-      imageElement,
       this._element.querySelector(".element__like-button"),
       this._element.querySelector(".element__remove-button")
     );
