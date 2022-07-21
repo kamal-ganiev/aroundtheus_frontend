@@ -1,3 +1,5 @@
+import "./styles/index.css";
+
 ////////// Intial Cards Array //////////
 
 const initialCards = [
@@ -29,9 +31,9 @@ const initialCards = [
 
 //////////// Importing Modules \\\\\\\\\\\\
 
-import { Card } from "./Card.js";
-import { openModal, closeModal } from "./utils.js";
-import { FormValidator } from "./FormValidator.js";
+import { Card } from "./script/Card";
+import { openModal, closeModal } from "./script/utils";
+import { FormValidator } from "./script/FormValidator";
 
 //////////// Forms Validation \\\\\\\\\\\\
 

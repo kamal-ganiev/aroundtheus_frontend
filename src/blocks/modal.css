@@ -137,25 +137,6 @@
   max-height: 75vh;
 }
 
-.modal-preview__close {
-  background-image: url("../images/elements/__element-close-button.svg");
-  width: 40px;
-  height: 40px;
-  background-position: center;
-  background-size: cover;
-  border: none;
-  background-color: rgba(0, 0, 0, 0);
-  cursor: pointer;
-  transition: 0.3s;
-  position: absolute;
-  top: -40px;
-  right: -40px;
-}
-
-.modal-preview__close:hover {
-  opacity: 0.6;
-}
-
 .modal-preview__title {
   margin: 10px auto auto 0;
   font-family: "Inter", Arial, sans-serif;
