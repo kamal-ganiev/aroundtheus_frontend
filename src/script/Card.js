@@ -11,7 +11,7 @@ class Card {
     this._cardTemplateSelector = cardTemplateSelector;
   }
 
-  _setEventListeners(likeButton, removeButton) {
+  _setEventListeners() {
     this._imageElement.addEventListener("click", () =>
       this._handleOpenImagePreview(this._imageElement)
     );

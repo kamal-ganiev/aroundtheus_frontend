@@ -32,7 +32,7 @@ const initialCards = [
 //////////// Importing Modules \\\\\\\\\\\\
 
 import { Card } from "./script/Card";
-import { openModal, closeModal } from "./script/utils";
+import { Modal } from "./script/Modal";
 import { FormValidator } from "./script/FormValidator";
 
 //////////// Forms Validation \\\\\\\\\\\\
@@ -62,12 +62,12 @@ editFormValidator.enableValidation();
 
 //////////// Card Image Preview Function \\\\\\\\\\\\
 
-const cardImageOverlay = document.querySelector(".modal-preview");
+const cardImageOverlay = new Modal(".modal-preview");
 const cardImagePreview = document.querySelector(".modal-preview__image");
 const cardImagePreviewTitle = document.querySelector(".modal-preview__title");
 
 const handleOpenImagePreview = (image) => {
-  openModal(cardImageOverlay);
+  cardImageOverlay.open();
   cardImagePreview.src = image.src;
   cardImagePreview.alt = image.alt;
   cardImagePreviewTitle.textContent = image.alt;
@@ -75,7 +75,7 @@ const handleOpenImagePreview = (image) => {
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
-const editProfileModal = document.querySelector(".modal-edit");
+const editProfileModal = new Modal(".modal-edit");
 
 const editUnrollButton = document.querySelector(".profile__edit-button");
 
@@ -91,7 +91,7 @@ function submitEditForm(evt) {
   evt.preventDefault();
   profileName.textContent = editFormName.value;
   profileTag.textContent = editFormTag.value;
-  closeModal(editProfileModal);
+  editProfileModal.close();
 }
 
 editForm.addEventListener("submit", submitEditForm);
@@ -102,7 +102,7 @@ function fillEditForm(name, tag) {
 }
 
 function openEditModal() {
-  openModal(editProfileModal);
+  editProfileModal.open();
   fillEditForm(profileName, profileTag);
 }
 
@@ -119,7 +119,7 @@ const renderCard = (link, name) => {
 
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
-const addCardModal = document.querySelector(".modal-add");
+const addCardModal = new Modal(".modal-add");
 
 const addFormTitle = document.querySelector("input[name='title']");
 const addFormLink = document.querySelector("input[name='link']");
@@ -133,12 +133,12 @@ function submitAddForm(evt) {
   renderCard(addFormLink.value, addFormTitle.value);
 
   addCardForm.reset();
-  closeModal(addCardModal);
+  addCardModal.close();
   cardFormValidator.toggleButtonState();
 }
 
 addUnrollButton.addEventListener("click", function () {
-  openModal(addCardModal);
+  addCardModal.open();
 });
 
 addCardForm.addEventListener("submit", submitAddForm);
