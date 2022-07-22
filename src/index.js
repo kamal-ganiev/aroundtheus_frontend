@@ -34,6 +34,7 @@ const initialCards = [
 import { Card } from "./script/Card";
 import { Modal } from "./script/Modal";
 import { FormValidator } from "./script/FormValidator";
+import { ModalWithImage } from "./script/ModalWithImage";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -62,16 +63,17 @@ editFormValidator.enableValidation();
 
 //////////// Card Image Preview Function \\\\\\\\\\\\
 
-const cardImageOverlay = new Modal(".modal-preview");
+const cardImageOverlay = new ModalWithImage(".modal-preview");
 const cardImagePreview = document.querySelector(".modal-preview__image");
 const cardImagePreviewTitle = document.querySelector(".modal-preview__title");
 
-const handleOpenImagePreview = (image) => {
-  cardImageOverlay.open();
-  cardImagePreview.src = image.src;
-  cardImagePreview.alt = image.alt;
-  cardImagePreviewTitle.textContent = image.alt;
-};
+// const handleOpenImagePreview = (image) => {
+//   cardImageOverlay.open();
+
+//   cardImagePreview.src = image.src;
+//   cardImagePreview.alt = image.alt;
+//   cardImagePreviewTitle.textContent = image.alt;
+// };
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -113,7 +115,7 @@ editUnrollButton.addEventListener("click", openEditModal);
 const cardsContainer = document.querySelector(".elements__list");
 
 const renderCard = (link, name) => {
-  const card = new Card(link, name, handleOpenImagePreview, ".card__template");
+  const card = new Card(link, name, cardImageOverlay, ".card__template");
   cardsContainer.prepend(card.renderCard());
 };
 

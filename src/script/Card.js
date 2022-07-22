@@ -13,7 +13,10 @@ class Card {
 
   _setEventListeners() {
     this._imageElement.addEventListener("click", () =>
-      this._handleOpenImagePreview(this._imageElement)
+      this._handleOpenImagePreview.handleOpenImagePreview(this._imageElement)
+    );
+    this._imageElement.addEventListener("click", () =>
+      this._handleOpenImagePreview.open()
     );
     this._likeButton.addEventListener("click", this._toggleLikeButton);
     this._removeButton.addEventListener("click", this._removeCard);
