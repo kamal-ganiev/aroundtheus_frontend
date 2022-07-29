@@ -35,6 +35,7 @@ import { Card } from "./script/Card";
 import { Modal } from "./script/Modal";
 import { FormValidator } from "./script/FormValidator";
 import { ModalWithImage } from "./script/ModalWithImage";
+import Section from "./script/Section";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -64,16 +65,43 @@ editFormValidator.enableValidation();
 //////////// Card Image Preview Function \\\\\\\\\\\\
 
 const cardImageOverlay = new ModalWithImage(".modal-preview");
-const cardImagePreview = document.querySelector(".modal-preview__image");
-const cardImagePreviewTitle = document.querySelector(".modal-preview__title");
 
-// const handleOpenImagePreview = (image) => {
-//   cardImageOverlay.open();
+//////////// Class Calling Function \\\\\\\\\\\\
 
-//   cardImagePreview.src = image.src;
-//   cardImagePreview.alt = image.alt;
-//   cardImagePreviewTitle.textContent = image.alt;
-// };
+const cardClass = new Card(cardImageOverlay, ".card__template");
+
+const renderCard = (item) => {
+  const card = new Section(
+    {
+      items: item,
+      renderer: (item) => {
+        const element = cardClass.getCardTemplate();
+        const image = element.querySelector(".element__image");
+        image.src = item.link;
+        image.alt = item.name;
+        element.querySelector(".element__title").textContent = item.name;
+        cardClass.setEventListeners(
+          image,
+          element.querySelector(".element__like-button"),
+          element.querySelector(".element__remove-button")
+        );
+
+        return element;
+      },
+    },
+    ".elements__list"
+  );
+
+  const newCard = card.renderer();
+
+  card.addItem(newCard);
+};
+
+//////////// Initial Cards Rendering \\\\\\\\\\\\
+
+initialCards.forEach((item) => {
+  renderCard(item);
+});
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -110,15 +138,6 @@ function openEditModal() {
 
 editUnrollButton.addEventListener("click", openEditModal);
 
-//////////// Render Card Function \\\\\\\\\\\\
-
-const cardsContainer = document.querySelector(".elements__list");
-
-const renderCard = (link, name) => {
-  const card = new Card(link, name, cardImageOverlay, ".card__template");
-  cardsContainer.prepend(card.renderCard());
-};
-
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
 const addCardModal = new Modal(".modal-add");
@@ -132,7 +151,7 @@ const addCardForm = document.forms.AddPlace;
 function submitAddForm(evt) {
   evt.preventDefault();
 
-  renderCard(addFormLink.value, addFormTitle.value);
+  renderCard({ name: addFormTitle.value, link: addFormLink.value });
 
   addCardForm.reset();
   addCardModal.close();
@@ -144,9 +163,3 @@ addUnrollButton.addEventListener("click", function () {
 });
 
 addCardForm.addEventListener("submit", submitAddForm);
-
-//////////// Initial Cards Creating \\\\\\\\\\\\
-
-initialCards.forEach((item) => {
-  renderCard(item.link, item.name);
-});
