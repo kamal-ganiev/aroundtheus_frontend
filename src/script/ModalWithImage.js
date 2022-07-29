@@ -1,6 +1,6 @@
-import { Modal } from "./Modal";
+import Modal from "./Modal";
 
-class ModalWithImage extends Modal {
+export default class ModalWithImage extends Modal {
   handleOpenImagePreview(image) {
     const modalPreviewImage = document.querySelector(`.modal-preview__image`);
 
@@ -9,5 +9,3 @@ class ModalWithImage extends Modal {
     document.querySelector(`.modal-preview__title`).textContent = image.alt;
   }
 }
-
-export { ModalWithImage };

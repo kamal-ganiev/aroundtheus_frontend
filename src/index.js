@@ -31,10 +31,10 @@ const initialCards = [
 
 //////////// Importing Modules \\\\\\\\\\\\
 
-import { Card } from "./script/Card";
-import { Modal } from "./script/Modal";
-import { FormValidator } from "./script/FormValidator";
-import { ModalWithImage } from "./script/ModalWithImage";
+import Card from "./script/Card";
+import Modal from "./script/Modal";
+import FormValidator from "./script/FormValidator";
+import ModalWithImage from "./script/ModalWithImage";
 import Section from "./script/Section";
 
 //////////// Forms Validation \\\\\\\\\\\\

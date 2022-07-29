@@ -1,4 +1,4 @@
-class Modal {
+export default class Modal {
   constructor(modalSelector) {
     this._modalSelector = modalSelector;
     this._modal = document.querySelector(this._modalSelector);
@@ -31,5 +31,3 @@ class Modal {
       .addEventListener("click", () => this.close());
   }
 }
-
-export { Modal };

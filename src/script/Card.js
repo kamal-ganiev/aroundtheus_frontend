@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
   constructor(handleOpenImagePreview, cardTemplateSelector) {
     this._handleOpenImagePreview = handleOpenImagePreview;
     this._cardTemplateSelector = cardTemplateSelector;
