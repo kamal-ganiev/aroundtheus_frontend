@@ -32,11 +32,11 @@ const initialCards = [
 //////////// Importing Modules \\\\\\\\\\\\
 
 import Card from "./script/Card";
-import Modal from "./script/Modal";
 import FormValidator from "./script/FormValidator";
 import ModalWithImage from "./script/ModalWithImage";
 import Section from "./script/Section";
 import ModalWithForm from "./script/ModalWithForm";
+import UserInfo from "./script/UserInfo";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -110,10 +110,22 @@ initialCards.forEach((item) => {
 const profileName = document.querySelector(".profile__name");
 const profileTag = document.querySelector(".profile__tag");
 
+const editFormInitialInputName = document.querySelector(
+  ".form__input[name='name']"
+);
+const editFormInitialInputTag = document.querySelector(
+  ".form__input[name='tag']"
+);
+
+editFormInitialInputName.value = profileName.textContent;
+editFormInitialInputTag.value = profileTag.textContent;
+
 const submitEditForm = (inputValues) => {
-  profileName.textContent = inputValues.first.value;
-  profileTag.textContent = inputValues.second.value;
+  const userInfo = new UserInfo(inputValues.first, inputValues.second);
+  userInfo.setUserName(profileName, profileTag);
   editProfileModal.close();
+  inputValues.first.value = userInfo.getUserInfo().name;
+  inputValues.second.value = userInfo.getUserInfo().tag;
   editFormValidator.toggleButtonState();
 };
 
