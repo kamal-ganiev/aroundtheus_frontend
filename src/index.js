@@ -36,6 +36,7 @@ import Modal from "./script/Modal";
 import FormValidator from "./script/FormValidator";
 import ModalWithImage from "./script/ModalWithImage";
 import Section from "./script/Section";
+import ModalWithForm from "./script/ModalWithForm";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -65,6 +66,7 @@ editFormValidator.enableValidation();
 //////////// Card Image Preview Function \\\\\\\\\\\\
 
 const cardImageOverlay = new ModalWithImage(".modal-preview");
+cardImageOverlay.setEventListeners();
 
 //////////// Class Calling Function \\\\\\\\\\\\
 
@@ -105,61 +107,43 @@ initialCards.forEach((item) => {
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
-const editProfileModal = new Modal(".modal-edit");
-
-const editUnrollButton = document.querySelector(".profile__edit-button");
-
 const profileName = document.querySelector(".profile__name");
 const profileTag = document.querySelector(".profile__tag");
 
-const editFormName = document.querySelector("input[name='name']");
-const editFormTag = document.querySelector("input[name='tag']");
-
-const editForm = document.querySelector(".modal__form[name='NameTag']");
-
-function submitEditForm(evt) {
-  evt.preventDefault();
-  profileName.textContent = editFormName.value;
-  profileTag.textContent = editFormTag.value;
+const submitEditForm = (inputValues) => {
+  profileName.textContent = inputValues.first.value;
+  profileTag.textContent = inputValues.second.value;
   editProfileModal.close();
-}
+  editFormValidator.toggleButtonState();
+};
 
-editForm.addEventListener("submit", submitEditForm);
+const editProfileModal = new ModalWithForm(".modal-edit", submitEditForm);
+editProfileModal.setEventListeners();
 
-function fillEditForm(name, tag) {
-  editFormName.value = name.textContent;
-  editFormTag.value = tag.textContent;
-}
+const editUnrollButton = document.querySelector(".profile__edit-button");
 
 function openEditModal() {
   editProfileModal.open();
-  fillEditForm(profileName, profileTag);
 }
 
 editUnrollButton.addEventListener("click", openEditModal);
 
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
-const addCardModal = new Modal(".modal-add");
-
-const addFormTitle = document.querySelector("input[name='title']");
-const addFormLink = document.querySelector("input[name='link']");
-
-const addUnrollButton = document.querySelector(".profile__add-button");
-const addCardForm = document.forms.AddPlace;
-
-function submitAddForm(evt) {
-  evt.preventDefault();
-
-  renderCard({ name: addFormTitle.value, link: addFormLink.value });
-
-  addCardForm.reset();
+const submitAddForm = (inputValues) => {
+  renderCard({
+    name: inputValues.first.value,
+    link: inputValues.second.value,
+  });
   addCardModal.close();
   cardFormValidator.toggleButtonState();
-}
+};
+
+const addCardModal = new ModalWithForm(".modal-add", submitAddForm);
+addCardModal.setEventListeners();
+
+const addUnrollButton = document.querySelector(".profile__add-button");
 
 addUnrollButton.addEventListener("click", function () {
   addCardModal.open();
 });
-
-addCardForm.addEventListener("submit", submitAddForm);

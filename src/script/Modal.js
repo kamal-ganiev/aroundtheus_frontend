@@ -18,7 +18,6 @@ export default class Modal {
 
   open() {
     this._modal.classList.add("modal_opened");
-    this.setEventListeners();
   }
 
   close() {
