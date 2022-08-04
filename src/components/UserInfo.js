@@ -1,7 +1,7 @@
 export default class UserInfo {
   constructor(userName, userTag) {
-    this._name = userName.value;
-    this._tag = userTag.value;
+    this._name = userName;
+    this._tag = userTag;
   }
 
   getUserInfo() {

@@ -1,4 +1,4 @@
-import "./styles/index.css";
+import "./index.css";
 
 ////////// Intial Cards Array //////////
 
@@ -31,12 +31,12 @@ const initialCards = [
 
 //////////// Importing Modules \\\\\\\\\\\\
 
-import Card from "./script/Card";
-import FormValidator from "./script/FormValidator";
-import ModalWithImage from "./script/ModalWithImage";
-import Section from "./script/Section";
-import ModalWithForm from "./script/ModalWithForm";
-import UserInfo from "./script/UserInfo";
+import Card from "../components/Card";
+import FormValidator from "../components/FormValidator";
+import ModalWithImage from "../components/ModalWithImage";
+import Section from "../components/Section";
+import ModalWithForm from "../components/ModalWithForm";
+import UserInfo from "../components/UserInfo";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -121,11 +121,11 @@ editFormInitialInputName.value = profileName.textContent;
 editFormInitialInputTag.value = profileTag.textContent;
 
 const submitEditForm = (inputValues) => {
-  const userInfo = new UserInfo(inputValues.first, inputValues.second);
+  const userInfo = new UserInfo(inputValues.name, inputValues.tag);
   userInfo.setUserName(profileName, profileTag);
   editProfileModal.close();
-  inputValues.first.value = userInfo.getUserInfo().name;
-  inputValues.second.value = userInfo.getUserInfo().tag;
+  editFormInitialInputName.value = userInfo.getUserInfo().name;
+  editFormInitialInputTag.value = userInfo.getUserInfo().tag;
   editFormValidator.toggleButtonState();
 };
 
@@ -144,8 +144,8 @@ editUnrollButton.addEventListener("click", openEditModal);
 
 const submitAddForm = (inputValues) => {
   renderCard({
-    name: inputValues.first.value,
-    link: inputValues.second.value,
+    name: inputValues.title,
+    link: inputValues.link,
   });
   addCardModal.close();
   cardFormValidator.toggleButtonState();
