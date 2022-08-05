@@ -94,7 +94,7 @@ const renderCard = (item) => {
     ".elements__list"
   );
 
-  const newCard = card.renderer();
+  const newCard = card.renderItems();
 
   card.addItem(newCard);
 };
@@ -110,27 +110,33 @@ initialCards.forEach((item) => {
 const profileName = document.querySelector(".profile__name");
 const profileTag = document.querySelector(".profile__tag");
 
-const editFormInitialInputName = document.querySelector(
-  ".form__input[name='name']"
-);
-const editFormInitialInputTag = document.querySelector(
-  ".form__input[name='tag']"
-);
+const editFormInputName = document.querySelector(".form__input[name='name']");
+const editFormInputTag = document.querySelector(".form__input[name='tag']");
 
-editFormInitialInputName.value = profileName.textContent;
-editFormInitialInputTag.value = profileTag.textContent;
+const replaceEditFormInputs = () => {
+  editFormInputName.value = profileName.textContent;
+  editFormInputTag.value = profileTag.textContent;
+};
+
+replaceEditFormInputs();
 
 const submitEditForm = (inputValues) => {
   const userInfo = new UserInfo(inputValues.name, inputValues.tag);
   userInfo.setUserName(profileName, profileTag);
   editProfileModal.close();
-  editFormInitialInputName.value = userInfo.getUserInfo().name;
-  editFormInitialInputTag.value = userInfo.getUserInfo().tag;
+  editFormInputName.value = userInfo.getUserInfo().name;
+  editFormInputTag.value = userInfo.getUserInfo().tag;
   editFormValidator.toggleButtonState();
 };
 
 const editProfileModal = new ModalWithForm(".modal-edit", submitEditForm);
 editProfileModal.setEventListeners();
+
+const editModal = document.querySelector(".modal-edit");
+
+editModal
+  .querySelector(".modal__close-button")
+  .addEventListener("click", replaceEditFormInputs);
 
 const editUnrollButton = document.querySelector(".profile__edit-button");
 
