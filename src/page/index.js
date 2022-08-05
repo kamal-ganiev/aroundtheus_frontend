@@ -43,40 +43,53 @@ cardImageOverlay.setEventListeners();
 
 //////////// Class Calling Function \\\\\\\\\\\\
 
-const cardClass = new Card(cardImageOverlay, ".card__template");
+const cardClass = new Card(
+  {
+    name: "Chicago, Illinois",
+    link: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370",
+  },
+  cardImageOverlay,
+  ".card__template"
+);
 
-const renderCard = (item) => {
-  const card = new Section(
-    {
-      items: item,
-      renderer: (item) => {
-        const element = cardClass.getCardTemplate();
-        const image = element.querySelector(".element__image");
-        image.src = item.link;
-        image.alt = item.name;
-        element.querySelector(".element__title").textContent = item.name;
-        cardClass.setEventListeners(
-          image,
-          element.querySelector(".element__like-button"),
-          element.querySelector(".element__remove-button")
-        );
+const cardContainer = document.querySelector(".elements__list");
 
-        return element;
-      },
-    },
-    ".elements__list"
-  );
+cardContainer.prepend(cardClass.generateCard());
 
-  const newCard = card.renderItems();
+console.log(cardClass.generateCard());
 
-  card.addItem(newCard);
-};
+// const renderCard = (item) => {
+//   const card = new Section(
+//     {
+//       items: item,
+//       renderer: (item) => {
+//         const element = cardClass.getCardTemplate();
+//         const image = element.querySelector(".element__image");
+//         image.src = item.link;
+//         image.alt = item.name;
+//         element.querySelector(".element__title").textContent = item.name;
+//         cardClass.setEventListeners(
+//           image,
+//           element.querySelector(".element__like-button"),
+//           element.querySelector(".element__remove-button")
+//         );
+
+//         return element;
+//       },
+//     },
+//     ".elements__list"
+//   );
+
+//   const newCard = card.renderItems();
+
+//   card.addItem(newCard);
+// };
 
 //////////// Initial Cards Rendering \\\\\\\\\\\\
 
-initialCards.forEach((item) => {
-  renderCard(item);
-});
+// initialCards.forEach((item) => {
+//   renderCard(item);
+// });
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 

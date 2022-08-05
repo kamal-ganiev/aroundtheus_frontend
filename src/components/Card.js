@@ -1,18 +1,16 @@
 export default class Card {
-  constructor(handleOpenImagePreview, cardTemplateSelector) {
-    this._handleOpenImagePreview = handleOpenImagePreview;
+  constructor(data, handleCardClick, cardTemplateSelector) {
+    this._handleCardClick = handleCardClick;
     this._cardTemplateSelector = cardTemplateSelector;
+    this._data = data;
   }
 
-  setEventListeners(image, like, remove) {
-    image.addEventListener("click", () =>
-      this._handleOpenImagePreview.open(image)
+  _setEventListeners() {
+    this._image.addEventListener("click", () =>
+      this._handleCardClick.open(this._image)
     );
-    image.addEventListener("click", () =>
-      this._handleOpenImagePreview.open(image)
-    );
-    like.addEventListener("click", this._toggleLikeButton);
-    remove.addEventListener("click", this._removeCard);
+    this._likeButton.addEventListener("click", this._toggleLikeButton);
+    this._removeButton.addEventListener("click", this._removeCard);
   }
 
   _toggleLikeButton(evt) {
@@ -21,15 +19,24 @@ export default class Card {
   }
 
   _removeCard = (evt) => {
-    const eventTarget = evt.target;
-    eventTarget.parentNode.parentNode.remove();
+    evt.target.closest("li").remove();
   };
 
-  getCardTemplate() {
-    return document
+  generateCard() {
+    this._element = document
       .querySelector(this._cardTemplateSelector)
       .content.cloneNode(true)
       .querySelector(".elements__item");
+    this._image = this._element.querySelector(".element__image");
+    this._likeButton = this._element.querySelector(".element__like-button");
+    this._removeButton = this._element.querySelector(".element__remove-button");
+    this._image.src = this._data.link;
+    this._image.alt = this._data.name;
+    this._element.querySelector(".element__title").textContent =
+      this._data.name;
+    this._setEventListeners();
+
+    return this._element;
   }
 }
 
