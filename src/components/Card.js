@@ -6,9 +6,11 @@ export default class Card {
 
   setEventListeners(image, like, remove) {
     image.addEventListener("click", () =>
-      this._handleOpenImagePreview.handleOpenImagePreview(image)
+      this._handleOpenImagePreview.open(image)
     );
-    image.addEventListener("click", () => this._handleOpenImagePreview.open());
+    image.addEventListener("click", () =>
+      this._handleOpenImagePreview.open(image)
+    );
     like.addEventListener("click", this._toggleLikeButton);
     remove.addEventListener("click", this._removeCard);
   }

@@ -1,7 +1,9 @@
 import Modal from "./Modal";
 
 export default class ModalWithImage extends Modal {
-  handleOpenImagePreview(image) {
+  open(image) {
+    super.open();
+
     const modalPreviewImage = document.querySelector(`.modal-preview__image`);
 
     modalPreviewImage.src = image.src;
