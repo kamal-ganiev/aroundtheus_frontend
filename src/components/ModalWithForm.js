@@ -25,6 +25,12 @@ export default class ModalWithForm extends Modal {
     });
   }
 
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      input.value = data[input.name];
+    });
+  }
+
   close() {
     super.close();
     this._form.reset();

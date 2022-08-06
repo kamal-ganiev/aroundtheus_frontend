@@ -15,26 +15,25 @@ import {
   editFormInputName,
   editFormInputTag,
   validationConfig,
-  editModal,
   editUnrollButton,
   addUnrollButton,
+  formValidators,
 } from "../utils/constants";
 
 //////////// Forms Validation \\\\\\\\\\\\
 
-const cardFormValidator = new FormValidator(
-  validationConfig,
-  document.forms.AddPlace
-);
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute("name");
 
-cardFormValidator.enableValidation();
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
 
-const editFormValidator = new FormValidator(
-  validationConfig,
-  document.forms.NameTag
-);
-
-editFormValidator.enableValidation();
+enableValidation(validationConfig);
 
 //////////// Card Image Preview Function \\\\\\\\\\\\
 
@@ -43,84 +42,44 @@ cardImageOverlay.setEventListeners();
 
 //////////// Class Calling Function \\\\\\\\\\\\
 
-const cardClass = new Card(
-  {
-    name: "Chicago, Illinois",
-    link: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370",
-  },
-  cardImageOverlay,
-  ".card__template"
-);
-
-const cardContainer = document.querySelector(".elements__list");
-
-cardContainer.prepend(cardClass.generateCard());
-
-console.log(cardClass.generateCard());
-
-// const renderCard = (item) => {
-//   const card = new Section(
-//     {
-//       items: item,
-//       renderer: (item) => {
-//         const element = cardClass.getCardTemplate();
-//         const image = element.querySelector(".element__image");
-//         image.src = item.link;
-//         image.alt = item.name;
-//         element.querySelector(".element__title").textContent = item.name;
-//         cardClass.setEventListeners(
-//           image,
-//           element.querySelector(".element__like-button"),
-//           element.querySelector(".element__remove-button")
-//         );
-
-//         return element;
-//       },
-//     },
-//     ".elements__list"
-//   );
-
-//   const newCard = card.renderItems();
-
-//   card.addItem(newCard);
-// };
+const renderCard = (item) => {
+  const newCard = new Card(item, cardImageOverlay, ".card__template");
+  cardSection.addItem(newCard.generateCard());
+};
 
 //////////// Initial Cards Rendering \\\\\\\\\\\\
 
-// initialCards.forEach((item) => {
-//   renderCard(item);
-// });
+const cardSection = new Section(
+  { items: initialCards, renderer: renderCard },
+  ".elements__list"
+);
+
+cardSection.renderItems();
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
-const replaceEditFormInputs = () => {
-  editFormInputName.value = profileName.textContent;
-  editFormInputTag.value = profileTag.textContent;
-};
-
-replaceEditFormInputs();
-
-const submitEditForm = (inputValues) => {
-  const userInfo = new UserInfo(inputValues.name, inputValues.tag);
-  userInfo.setUserName(profileName, profileTag);
-  editProfileModal.close();
-  editFormInputName.value = userInfo.getUserInfo().name;
-  editFormInputTag.value = userInfo.getUserInfo().tag;
-  editFormValidator.toggleButtonState();
-};
-
-const editProfileModal = new ModalWithForm(".modal-edit", submitEditForm);
+const editProfileModal = new ModalWithForm(".modal-edit", () =>
+  submitEditForm()
+);
 editProfileModal.setEventListeners();
 
-editModal
-  .querySelector(".modal__close-button")
-  .addEventListener("click", replaceEditFormInputs);
-
 function openEditModal() {
+  formValidators.NameTag.resetValidation();
+  editProfileModal.setInputValues({
+    name: profileName.textContent,
+    tag: profileTag.textContent,
+  });
   editProfileModal.open();
 }
 
 editUnrollButton.addEventListener("click", openEditModal);
+
+const userInfo = new UserInfo(editFormInputName, editFormInputTag);
+
+const submitEditForm = () => {
+  userInfo.setUserName(profileName, profileTag);
+  editProfileModal.close();
+};
 
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
@@ -130,12 +89,12 @@ const submitAddForm = (inputValues) => {
     link: inputValues.link,
   });
   addCardModal.close();
-  cardFormValidator.toggleButtonState();
 };
 
 const addCardModal = new ModalWithForm(".modal-add", submitAddForm);
 addCardModal.setEventListeners();
 
 addUnrollButton.addEventListener("click", function () {
+  formValidators.AddPlace.resetValidation();
   addCardModal.open();
 });

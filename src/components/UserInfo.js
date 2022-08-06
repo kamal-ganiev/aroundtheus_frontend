@@ -1,17 +1,17 @@
 export default class UserInfo {
   constructor(userName, userTag) {
-    this._name = document.querySelector(".profile__name");
-    this._tag = document.querySelector(".profile__tag");
-    this._name.textContent = userName;
-    this._tag.textContent = userTag;
+    this._userName = document.querySelector(".profile__name");
+    this._userTag = document.querySelector(".profile__tag");
+    this._name = userName;
+    this._tag = userTag;
   }
 
   getUserInfo() {
-    return { name: this._name.textContent, tag: this._tag.textContent };
+    return { name: this._name.value, tag: this._tag.value };
   }
 
   setUserName() {
-    this._name.textContent = this.getUserInfo().name;
-    this._tag.textContent = this.getUserInfo().tag;
+    this._userName.textContent = this.getUserInfo().name;
+    this._userTag.textContent = this.getUserInfo().tag;
   }
 }

@@ -36,7 +36,6 @@ const profileTag = document.querySelector(".profile__tag");
 
 const editFormInputName = document.querySelector(".form__input[name='name']");
 const editFormInputTag = document.querySelector(".form__input[name='tag']");
-const editModal = document.querySelector(".modal-edit");
 const editUnrollButton = document.querySelector(".profile__edit-button");
 const addUnrollButton = document.querySelector(".profile__add-button");
 
@@ -51,6 +50,8 @@ const validationConfig = {
   errorClass: "form__error-message_active",
 };
 
+const formValidators = {};
+
 ////////// Export //////////
 
 export {
@@ -60,7 +61,7 @@ export {
   editFormInputName,
   editFormInputTag,
   validationConfig,
-  editModal,
   editUnrollButton,
   addUnrollButton,
+  formValidators,
 };
