@@ -27,15 +27,8 @@ const initialCards = [
   },
 ];
 
-////////// Profile Elements //////////
-
-const profileName = document.querySelector(".profile__name");
-const profileTag = document.querySelector(".profile__tag");
-
 ////////// Modal Elements //////////
 
-const editFormInputName = document.querySelector(".form__input[name='name']");
-const editFormInputTag = document.querySelector(".form__input[name='tag']");
 const editUnrollButton = document.querySelector(".profile__edit-button");
 const addUnrollButton = document.querySelector(".profile__add-button");
 
@@ -56,10 +49,6 @@ const formValidators = {};
 
 export {
   initialCards,
-  profileName,
-  profileTag,
-  editFormInputName,
-  editFormInputTag,
   validationConfig,
   editUnrollButton,
   addUnrollButton,

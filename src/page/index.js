@@ -10,10 +10,6 @@ import ModalWithForm from "../components/ModalWithForm";
 import UserInfo from "../components/UserInfo";
 import {
   initialCards,
-  profileName,
-  profileTag,
-  editFormInputName,
-  editFormInputTag,
   validationConfig,
   editUnrollButton,
   addUnrollButton,
@@ -58,28 +54,24 @@ cardSection.renderItems();
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
-const editProfileModal = new ModalWithForm(".modal-edit", () =>
-  submitEditForm()
-);
-editProfileModal.setEventListeners();
+const userInfo = new UserInfo(".profile__name", ".profile__tag");
 
 function openEditModal() {
   formValidators.NameTag.resetValidation();
-  editProfileModal.setInputValues({
-    name: profileName.textContent,
-    tag: profileTag.textContent,
-  });
+  editProfileModal.setInputValues(userInfo.getUserInfo());
   editProfileModal.open();
 }
 
 editUnrollButton.addEventListener("click", openEditModal);
 
-const userInfo = new UserInfo(editFormInputName, editFormInputTag);
-
-const submitEditForm = () => {
-  userInfo.setUserName(profileName, profileTag);
+const submitEditForm = (inputValues) => {
+  userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
   editProfileModal.close();
 };
+
+const editProfileModal = new ModalWithForm(".modal-edit", submitEditForm);
+
+editProfileModal.setEventListeners();
 
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
