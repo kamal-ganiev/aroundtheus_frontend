@@ -9,12 +9,27 @@ import Section from "../components/Section";
 import ModalWithForm from "../components/ModalWithForm";
 import UserInfo from "../components/UserInfo";
 import {
-  initialCards,
   validationConfig,
   editUnrollButton,
   addUnrollButton,
   formValidators,
 } from "../utils/constants";
+import Api from "../components/Api";
+
+const api = new Api(1);
+
+//////////// Setting User Info \\\\\\\\\\\\
+
+const userInfo = new UserInfo(".profile__name", ".profile__tag");
+
+const userAvatar = document.querySelector(".profile__avatar");
+
+api
+  .getUserInfo()
+  .then((res) => res.json())
+  .then((res) => {
+    userInfo.setUserInfo({ name: res.name, tag: res.about });
+  });
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -45,16 +60,24 @@ const renderCard = (item) => {
 
 //////////// Initial Cards Rendering \\\\\\\\\\\\
 
+api
+  .getInitialCards()
+  .then((res) => res.json())
+  .then((res) => {
+    const cardSection = new Section(
+      { items: res, renderer: renderCard },
+      ".elements__list"
+    );
+
+    cardSection.renderItems();
+  });
+
 const cardSection = new Section(
-  { items: initialCards, renderer: renderCard },
+  { items: null, renderer: renderCard },
   ".elements__list"
 );
 
-cardSection.renderItems();
-
 //////////// Edit Popup Form \\\\\\\\\\\\
-
-const userInfo = new UserInfo(".profile__name", ".profile__tag");
 
 function openEditModal() {
   formValidators.NameTag.resetValidation();
@@ -66,6 +89,7 @@ editUnrollButton.addEventListener("click", openEditModal);
 
 const submitEditForm = (inputValues) => {
   userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
+  api.setUserInfo({ name: inputValues.name, about: inputValues.tag });
   editProfileModal.close();
 };
 
