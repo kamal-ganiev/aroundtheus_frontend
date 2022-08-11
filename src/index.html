@@ -27,12 +27,16 @@
 
       <main class="main">
         <section class="profile">
-          <img
-            class="profile__avatar"
-            src="<%=require('./images/profile/__profile-photo.jpg')%>"
-            alt="Profile's avatar"
-            id="ProfileImage"
-          />
+          <div class="profile__avatar">
+            <div class="profile__layout">
+              <img
+                class="profile__edit-icon"
+                src="<%=require('./images/profile/__edit-btn.svg')%>"
+                alt="Edit Icon"
+                id="EditIcon"
+              />
+            </div>
+          </div>
           <div class="profile__info">
             <h1 class="profile__name"></h1>
             <p class="profile__tag"></p>

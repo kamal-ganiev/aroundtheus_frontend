@@ -29,6 +29,7 @@ api
   .then((res) => res.json())
   .then((res) => {
     userInfo.setUserInfo({ name: res.name, tag: res.about });
+    userAvatar.style.backgroundImage = `url(${res.avatar})`;
   });
 
 //////////// Forms Validation \\\\\\\\\\\\
