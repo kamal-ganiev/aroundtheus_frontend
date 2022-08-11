@@ -43,6 +43,10 @@
   line-height: 29px;
 }
 
+.modal__title-remove {
+  margin-bottom: 38px;
+}
+
 .modal__form {
   margin: 0 auto;
   width: 358px;
@@ -84,6 +88,11 @@
   margin: 18px auto 37px;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.modal-remove-card {
+  margin-top: 0;
+  margin-bottom: 36px;
 }
 
 .modal__button:hover {
