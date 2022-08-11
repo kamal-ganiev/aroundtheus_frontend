@@ -22,7 +22,7 @@ export default class Card {
     evt.target.closest("li").remove();
   };
 
-  generateCard() {
+  generateCard(like) {
     this._element = document
       .querySelector(this._cardTemplateSelector)
       .content.cloneNode(true)
@@ -30,6 +30,8 @@ export default class Card {
     this._image = this._element.querySelector(".element__image");
     this._likeButton = this._element.querySelector(".element__like-button");
     this._removeButton = this._element.querySelector(".element__remove-button");
+    this._likeCounter = this._element.querySelector(".element__like-counter");
+    this._likeCounter.textContent = like;
     this._image.src = this._data.link;
     this._image.alt = this._data.name;
     this._element.querySelector(".element__title").textContent =

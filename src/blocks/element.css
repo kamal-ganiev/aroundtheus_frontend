@@ -35,8 +35,17 @@
   grid-area: title;
 }
 
+.element__like {
+  margin: 22px 18px 22px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .element__like-button {
-  margin: 30px 18px 30px auto;
+  margin: 0;
   width: 21px;
   height: 19px;
   cursor: pointer;
@@ -52,10 +61,22 @@
 .element__like-button_not-active {
   background-image: url("../images/elements/__like-btn.svg");
   background-color: rgba(255, 255, 255, 0);
+  margin: 0;
 }
 
 .element__like-button:hover {
   opacity: 0.5;
+}
+
+.element__like-counter {
+  height: 13px;
+  margin: 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
 }
 
 .element__remove-button {

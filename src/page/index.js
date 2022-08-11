@@ -56,7 +56,7 @@ cardImageOverlay.setEventListeners();
 
 const renderCard = (item) => {
   const newCard = new Card(item, cardImageOverlay, ".card__template");
-  cardSection(item).addItem(newCard.generateCard());
+  cardSection(item).addItem(newCard.generateCard(item.likes.length));
 };
 
 //////////// Initial Cards Rendering \\\\\\\\\\\\
