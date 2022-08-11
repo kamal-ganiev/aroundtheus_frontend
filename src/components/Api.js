@@ -31,4 +31,15 @@ export default class Api {
       },
     });
   }
+
+  uploadNewCard(data) {
+    return fetch("https://around.nomoreparties.co/v1/group-12/cards", {
+      method: "POST",
+      headers: {
+        authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  }
 }

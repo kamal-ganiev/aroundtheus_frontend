@@ -56,27 +56,21 @@ cardImageOverlay.setEventListeners();
 
 const renderCard = (item) => {
   const newCard = new Card(item, cardImageOverlay, ".card__template");
-  cardSection.addItem(newCard.generateCard());
+  cardSection(item).addItem(newCard.generateCard());
 };
 
 //////////// Initial Cards Rendering \\\\\\\\\\\\
+
+const cardSection = (data) => {
+  return new Section({ items: data, renderer: renderCard }, ".elements__list");
+};
 
 api
   .getInitialCards()
   .then((res) => res.json())
   .then((res) => {
-    const cardSection = new Section(
-      { items: res, renderer: renderCard },
-      ".elements__list"
-    );
-
-    cardSection.renderItems();
+    cardSection(res.reverse()).renderItems();
   });
-
-const cardSection = new Section(
-  { items: null, renderer: renderCard },
-  ".elements__list"
-);
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -102,6 +96,10 @@ editProfileModal.setEventListeners();
 
 const submitAddForm = (inputValues) => {
   renderCard({
+    name: inputValues.title,
+    link: inputValues.link,
+  });
+  api.uploadNewCard({
     name: inputValues.title,
     link: inputValues.link,
   });
