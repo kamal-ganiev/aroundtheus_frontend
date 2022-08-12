@@ -42,4 +42,17 @@ export default class Api {
       body: JSON.stringify(data),
     });
   }
+
+  removeCard(cardId) {
+    return fetch(
+      `https://around.nomoreparties.co/v1/group-12/cards/${cardId}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
 }

@@ -55,7 +55,13 @@ cardImageOverlay.setEventListeners();
 //////////// Class Calling Function \\\\\\\\\\\\
 
 const renderCard = (item) => {
-  const newCard = new Card(item, cardImageOverlay, ".card__template");
+  const newCard = new Card(
+    item,
+    cardImageOverlay,
+    ".card__template",
+    userInfo.getUserInfo(),
+    api.removeCard
+  );
   cardSection(item).addItem(newCard.generateCard(item.likes.length));
 };
 

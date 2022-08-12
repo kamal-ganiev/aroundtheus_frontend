@@ -1,8 +1,10 @@
 export default class Card {
-  constructor(data, handleCardClick, cardTemplateSelector) {
+  constructor(data, handleCardClick, cardTemplateSelector, client, deleteCard) {
     this._handleCardClick = handleCardClick;
     this._cardTemplateSelector = cardTemplateSelector;
     this._data = data;
+    this._client = client;
+    this._deleteCard = deleteCard;
   }
 
   _setEventListeners() {
@@ -20,6 +22,11 @@ export default class Card {
 
   _removeCard = (evt) => {
     evt.target.closest("li").remove();
+    this._deleteCard(this._data._id);
+  };
+
+  _checkOwner = () => {
+    return this._data.owner.name === this._client.name;
   };
 
   generateCard(like) {
@@ -30,6 +37,9 @@ export default class Card {
     this._image = this._element.querySelector(".element__image");
     this._likeButton = this._element.querySelector(".element__like-button");
     this._removeButton = this._element.querySelector(".element__remove-button");
+    if (!this._checkOwner()) {
+      this._removeButton.remove();
+    }
     this._likeCounter = this._element.querySelector(".element__like-counter");
     this._likeCounter.textContent = like;
     this._image.src = this._data.link;
