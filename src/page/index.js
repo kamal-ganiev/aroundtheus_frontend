@@ -62,7 +62,7 @@ const renderCard = (item) => {
     userInfo.getUserInfo(),
     api.removeCard
   );
-  cardSection(item).addItem(newCard.generateCard(item.likes.length));
+  cardSection(item).addItem(newCard.generateCard());
 };
 
 //////////// Initial Cards Rendering \\\\\\\\\\\\
@@ -101,11 +101,11 @@ editProfileModal.setEventListeners();
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
 const submitAddForm = (inputValues) => {
-  renderCard({
+  api.uploadNewCard({
     name: inputValues.title,
     link: inputValues.link,
   });
-  api.uploadNewCard({
+  renderCard({
     name: inputValues.title,
     link: inputValues.link,
   });

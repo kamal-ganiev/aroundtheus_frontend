@@ -26,10 +26,12 @@ export default class Card {
   };
 
   _checkOwner = () => {
-    return this._data.owner.name === this._client.name;
+    if (!(this._data.owner.name === this._client.name)) {
+      this._removeButton.remove();
+    }
   };
 
-  generateCard(like) {
+  generateCard() {
     this._element = document
       .querySelector(this._cardTemplateSelector)
       .content.cloneNode(true)
@@ -37,11 +39,15 @@ export default class Card {
     this._image = this._element.querySelector(".element__image");
     this._likeButton = this._element.querySelector(".element__like-button");
     this._removeButton = this._element.querySelector(".element__remove-button");
-    if (!this._checkOwner()) {
-      this._removeButton.remove();
+    if (this._data.owner !== undefined) {
+      this._checkOwner();
     }
     this._likeCounter = this._element.querySelector(".element__like-counter");
-    this._likeCounter.textContent = like;
+    if (this._data.likes === undefined) {
+      this._likeCounter.textContent = 0;
+    } else {
+      this._likeCounter.textContent = this._data.likes.length;
+    }
     this._image.src = this._data.link;
     this._image.alt = this._data.name;
     this._element.querySelector(".element__title").textContent =
