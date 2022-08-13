@@ -2,6 +2,7 @@
 
 const editUnrollButton = document.querySelector(".profile__edit-button");
 const addUnrollButton = document.querySelector(".profile__add-button");
+const changeUnrollButton = document.querySelector(".profile__avatar");
 
 ////////// Validation config //////////
 
@@ -18,4 +19,10 @@ const formValidators = {};
 
 ////////// Export //////////
 
-export { validationConfig, editUnrollButton, addUnrollButton, formValidators };
+export {
+  validationConfig,
+  editUnrollButton,
+  addUnrollButton,
+  formValidators,
+  changeUnrollButton,
+};

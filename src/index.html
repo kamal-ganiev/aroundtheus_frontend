@@ -153,6 +153,32 @@
             <button class="modal__close-button" type="button"></button>
           </div>
         </div>
+
+        <div class="modal modal-change">
+          <div class="modal__content modal__container">
+            <h2 class="modal__title">Change profile picture</h2>
+            <form class="form modal__form" name="ChangeAvatar" novalidate>
+              <label class="form__field modal__label">
+                <input
+                  class="form__input modal__field"
+                  id="link-input"
+                  name="link"
+                  placeholder="Image link"
+                  type="url"
+                  required
+                />
+                <span class="form__error-message link-input-error"></span>
+              </label>
+              <button
+                class="form__button modal__button modal-add-button"
+                type="submit"
+              >
+                Save
+              </button>
+            </form>
+            <button class="modal__close-button" type="button"></button>
+          </div>
+        </div>
       </main>
 
       <footer class="footer">

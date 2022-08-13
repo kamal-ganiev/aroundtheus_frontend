@@ -13,6 +13,7 @@ import {
   editUnrollButton,
   addUnrollButton,
   formValidators,
+  changeUnrollButton,
 } from "../utils/constants";
 import Api from "../components/Api";
 
@@ -118,4 +119,23 @@ addCardModal.setEventListeners();
 addUnrollButton.addEventListener("click", function () {
   formValidators.AddPlace.resetValidation();
   addCardModal.open();
+});
+
+//////////// Change Profile Picture Form \\\\\\\\\\\\
+
+const submitChangeForm = (inputValues) => {
+  api.changeProfilePicture({ avatar: inputValues.link });
+  changeUnrollButton.style.backgroundImage = `url(${inputValues.link})`;
+  changeProfilePictureModal.close();
+};
+
+const changeProfilePictureModal = new ModalWithForm(
+  ".modal-change",
+  submitChangeForm
+);
+changeProfilePictureModal.setEventListeners();
+
+changeUnrollButton.addEventListener("click", function () {
+  formValidators.ChangeAvatar.resetValidation();
+  changeProfilePictureModal.open();
 });
