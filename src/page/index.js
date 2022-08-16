@@ -90,8 +90,11 @@ function openEditModal() {
 editUnrollButton.addEventListener("click", openEditModal);
 
 const submitEditForm = (inputValues) => {
+  editProfileModal.renderLoading(true);
   userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
-  api.setUserInfo({ name: inputValues.name, about: inputValues.tag });
+  api
+    .setUserInfo({ name: inputValues.name, about: inputValues.tag })
+    .finally(editProfileModal.renderLoading(false));
   editProfileModal.close();
 };
 
@@ -102,10 +105,13 @@ editProfileModal.setEventListeners();
 //////////// Add Card Popup Form \\\\\\\\\\\\
 
 const submitAddForm = (inputValues) => {
-  api.uploadNewCard({
-    name: inputValues.title,
-    link: inputValues.link,
-  });
+  addCardModal.renderLoading(true);
+  api
+    .uploadNewCard({
+      name: inputValues.title,
+      link: inputValues.link,
+    })
+    .finally(addCardModal.renderLoading(false));
   renderCard({
     name: inputValues.title,
     link: inputValues.link,
@@ -124,9 +130,17 @@ addUnrollButton.addEventListener("click", function () {
 //////////// Change Profile Picture Form \\\\\\\\\\\\
 
 const submitChangeForm = (inputValues) => {
+  changeProfilePictureModal.renderLoading(true);
   api.changeProfilePicture({ avatar: inputValues.link });
-  changeUnrollButton.style.backgroundImage = `url(${inputValues.link})`;
-  changeProfilePictureModal.close();
+  api
+    .getUserInfo()
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res.avatar);
+      changeUnrollButton.style.backgroundImage = `url(${res.avatar})`;
+    })
+    .then(changeProfilePictureModal.renderLoading(false))
+    .finally(changeProfilePictureModal.close());
 };
 
 const changeProfilePictureModal = new ModalWithForm(

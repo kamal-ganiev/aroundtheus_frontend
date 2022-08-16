@@ -8,6 +8,7 @@ export default class Api {
       headers: {
         authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
     });
   }
@@ -18,6 +19,7 @@ export default class Api {
       headers: {
         authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
       body: JSON.stringify(data),
     });
@@ -31,6 +33,7 @@ export default class Api {
         headers: {
           authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
           "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
         },
         body: JSON.stringify(data),
       }
@@ -42,6 +45,7 @@ export default class Api {
       headers: {
         authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
     });
   }
@@ -52,6 +56,7 @@ export default class Api {
       headers: {
         authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
       body: JSON.stringify(data),
     });
@@ -65,6 +70,7 @@ export default class Api {
         headers: {
           authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
           "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
         },
       }
     );

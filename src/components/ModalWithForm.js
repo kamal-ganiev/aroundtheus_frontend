@@ -6,6 +6,8 @@ export default class ModalWithForm extends Modal {
     this._submitFunction = submitFunction;
     this._form = this._modal.querySelector("form");
     this._inputList = this._modal.querySelectorAll("input");
+    this._button = this._modal.querySelector(".form__button");
+    this._buttonDefaultValue = this._button.textContent;
   }
 
   _getInputValues() {
@@ -16,6 +18,14 @@ export default class ModalWithForm extends Modal {
     });
 
     return this._formValues;
+  }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._button.textContent = "Searching...";
+    } else {
+      this._button.textContent = this._buttonDefaultValue;
+    }
   }
 
   setEventListeners() {
