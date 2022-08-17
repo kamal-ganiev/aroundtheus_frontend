@@ -111,11 +111,15 @@ const submitAddForm = (inputValues) => {
       name: inputValues.title,
       link: inputValues.link,
     })
+    .then(() => {
+      api
+        .getInitialCards()
+        .then((res) => res.json())
+        .then((res) => {
+          cardSection(res.reverse()).renderItems();
+        });
+    })
     .finally(addCardModal.renderLoading(false));
-  renderCard({
-    name: inputValues.title,
-    link: inputValues.link,
-  });
   addCardModal.close();
 };
 
