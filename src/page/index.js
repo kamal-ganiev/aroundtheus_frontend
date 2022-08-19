@@ -25,13 +25,10 @@ const userInfo = new UserInfo(".profile__name", ".profile__tag");
 
 const userAvatar = document.querySelector(".profile__avatar");
 
-api
-  .getUserInfo()
-  .then((res) => res.json())
-  .then((res) => {
-    userInfo.setUserInfo({ name: res.name, tag: res.about });
-    userAvatar.style.backgroundImage = `url(${res.avatar})`;
-  });
+api.getUserInfo().then((res) => {
+  userInfo.setUserInfo({ name: res.name, tag: res.about });
+  userAvatar.style.backgroundImage = `url(${res.avatar})`;
+});
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -53,6 +50,22 @@ enableValidation(validationConfig);
 const cardImageOverlay = new ModalWithImage(".modal-preview");
 cardImageOverlay.setEventListeners();
 
+//////////// Remove Form Function \\\\\\\\\\\\
+
+const cardRemoveConfirmationForm = new ModalWithForm(
+  ".modal-remove",
+  submitRemoveForm
+);
+cardRemoveConfirmationForm.setEventListeners();
+
+function openRemoveCard() {
+  cardRemoveConfirmationForm.open();
+}
+
+function submitRemoveForm() {
+  cardRemoveConfirmationForm.close();
+}
+
 //////////// Class Calling Function \\\\\\\\\\\\
 
 const renderCard = (item) => {
@@ -61,7 +74,8 @@ const renderCard = (item) => {
     cardImageOverlay,
     ".card__template",
     userInfo.getUserInfo(),
-    api.removeCard
+    api.removeCard,
+    openRemoveCard
   );
   cardSection(item).addItem(newCard.generateCard());
 };
@@ -72,12 +86,9 @@ const cardSection = (data) => {
   return new Section({ items: data, renderer: renderCard }, ".elements__list");
 };
 
-api
-  .getInitialCards()
-  .then((res) => res.json())
-  .then((res) => {
-    cardSection(res.reverse()).renderItems();
-  });
+api.getInitialCards().then((res) => {
+  cardSection(res.reverse()).renderItems();
+});
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -112,12 +123,9 @@ const submitAddForm = (inputValues) => {
       link: inputValues.link,
     })
     .then(() => {
-      api
-        .getInitialCards()
-        .then((res) => res.json())
-        .then((res) => {
-          cardSection(res.reverse()).renderItems();
-        });
+      api.getInitialCards().then((res) => {
+        cardSection(res.reverse()).renderItems();
+      });
     })
     .finally(addCardModal.renderLoading(false));
   addCardModal.close();
@@ -135,14 +143,11 @@ addUnrollButton.addEventListener("click", function () {
 
 const submitChangeForm = (inputValues) => {
   changeProfilePictureModal.renderLoading(true);
-  api.changeProfilePicture({ avatar: inputValues.link });
   api
-    .getUserInfo()
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res.avatar);
-      changeUnrollButton.style.backgroundImage = `url(${res.avatar})`;
-    })
+    .changeProfilePicture({ avatar: inputValues.link })
+    .then(
+      (changeUnrollButton.style.backgroundImage = `url("${inputValues.link}")`)
+    )
     .then(changeProfilePictureModal.renderLoading(false))
     .finally(changeProfilePictureModal.close());
 };
