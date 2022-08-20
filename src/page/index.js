@@ -17,7 +17,13 @@ import {
 } from "../utils/constants";
 import Api from "../components/Api";
 
-const api = new Api(1);
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  headers: {
+    authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
+    "Content-Type": "application/json",
+  },
+});
 
 //////////// Setting User Info \\\\\\\\\\\\
 

@@ -1,14 +1,12 @@
 export default class Api {
-  constructor(options) {
-    this._options = options;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
   }
 
   getUserInfo() {
-    return fetch("https://around.nomoreparties.co/v1/group-12/users/me", {
-      headers: {
-        authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
-        "Content-Type": "application/json",
-      },
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -18,36 +16,24 @@ export default class Api {
   }
 
   setUserInfo(data) {
-    return fetch("https://around.nomoreparties.co/v1/group-12/users/me", {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify(data),
     });
   }
 
   changeProfilePicture(data) {
-    return fetch(
-      "https://around.nomoreparties.co/v1/group-12/users/me/avatar",
-      {
-        method: "PATCH",
-        headers: {
-          authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    });
   }
 
   getInitialCards() {
-    return fetch("https://around.nomoreparties.co/v1/group-12/cards", {
-      headers: {
-        authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
-        "Content-Type": "application/json",
-      },
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -57,26 +43,17 @@ export default class Api {
   }
 
   uploadNewCard(data) {
-    return fetch("https://around.nomoreparties.co/v1/group-12/cards", {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: {
-        authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify(data),
     });
   }
 
   removeCard(cardId) {
-    return fetch(
-      `https://around.nomoreparties.co/v1/group-12/cards/${cardId}`,
-      {
-        method: "DELETE",
-        headers: {
-          authorization: "bcf1ec82-9142-4956-ae12-15a368287229",
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
   }
 }
