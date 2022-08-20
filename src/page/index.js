@@ -16,6 +16,7 @@ import {
   changeUnrollButton,
 } from "../utils/constants";
 import Api from "../components/Api";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
 const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
@@ -58,19 +59,33 @@ cardImageOverlay.setEventListeners();
 
 //////////// Remove Form Function \\\\\\\\\\\\
 
-const cardRemoveConfirmationForm = new ModalWithForm(
+const cardRemoveConfirmationForm = new ConfirmDeleteModal(
   ".modal-remove",
   submitRemoveForm
 );
 cardRemoveConfirmationForm.setEventListeners();
 
-function openRemoveCard() {
-  cardRemoveConfirmationForm.open();
+function submitRemoveForm(card) {
+  cardRemoveConfirmationForm.close();
+  api.removeCard(card._id);
 }
 
-function submitRemoveForm() {
-  cardRemoveConfirmationForm.close();
-}
+//////////// Card Delete Function \\\\\\\\\\\\
+
+const handleDeleteCardClick = (card, data) => {
+  cardRemoveConfirmationForm.open();
+  cardRemoveConfirmationForm.setSubmitAction = () => {
+    cardRemoveConfirmationForm.close();
+    api
+      .removeCard(data._id)
+      .then(() => {
+        card.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 //////////// Class Calling Function \\\\\\\\\\\\
 
@@ -81,7 +96,7 @@ const renderCard = (item) => {
     ".card__template",
     userInfo.getUserInfo(),
     api.removeCard,
-    openRemoveCard
+    handleDeleteCardClick
   );
   cardSection(item).addItem(newCard.generateCard());
 };

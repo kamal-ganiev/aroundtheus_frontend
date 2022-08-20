@@ -5,14 +5,14 @@ export default class Card {
     cardTemplateSelector,
     client,
     deleteCard,
-    openRemoveFormFunction
+    handleDeleteIconClick
   ) {
     this._handleCardClick = handleCardClick;
     this._cardTemplateSelector = cardTemplateSelector;
     this._data = data;
     this._client = client;
     this._deleteCard = deleteCard;
-    this._openRemoveForm = openRemoveFormFunction;
+    this._handleDeleteIconClick = handleDeleteIconClick;
   }
 
   _setEventListeners() {
@@ -20,7 +20,9 @@ export default class Card {
       this._handleCardClick.open(this._image)
     );
     this._likeButton.addEventListener("click", this._toggleLikeButton);
-    this._removeButton.addEventListener("click", this._openRemoveForm);
+    this._removeButton.addEventListener("click", () => {
+      this._handleDeleteIconClick(this._element, this._data);
+    });
   }
 
   _toggleLikeButton(evt) {
