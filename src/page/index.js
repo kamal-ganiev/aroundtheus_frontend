@@ -32,10 +32,15 @@ const userInfo = new UserInfo(".profile__name", ".profile__tag");
 
 const userAvatar = document.querySelector(".profile__avatar");
 
-api.getUserInfo().then((res) => {
-  userInfo.setUserInfo({ name: res.name, tag: res.about });
-  userAvatar.style.backgroundImage = `url(${res.avatar})`;
-});
+api
+  .getUserInfo()
+  .then((res) => {
+    userInfo.setUserInfo({ name: res.name, tag: res.about });
+    userAvatar.style.backgroundImage = `url(${res.avatar})`;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -87,7 +92,6 @@ const renderCard = (item) => {
     cardImageOverlay,
     ".card__template",
     userInfo.getUserInfo(),
-    api.removeCard,
     handleDeleteCardClick
   );
   cardSection(item).addItem(newCard.generateCard());
@@ -99,9 +103,14 @@ const cardSection = (data) => {
   return new Section({ items: data, renderer: renderCard }, ".elements__list");
 };
 
-api.getInitialCards().then((res) => {
-  cardSection(res.reverse()).renderItems();
-});
+api
+  .getInitialCards()
+  .then((res) => {
+    cardSection(res.reverse()).renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //////////// Edit Popup Form \\\\\\\\\\\\
 
@@ -118,6 +127,9 @@ const submitEditForm = (inputValues) => {
   userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
   api
     .setUserInfo({ name: inputValues.name, about: inputValues.tag })
+    .catch((err) => {
+      console.log(err);
+    })
     .finally(editProfileModal.renderLoading(false));
   editProfileModal.close();
 };
@@ -139,6 +151,9 @@ const submitAddForm = (inputValues) => {
       api.getInitialCards().then((res) => {
         cardSection(res.reverse()).renderItems();
       });
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally(addCardModal.renderLoading(false));
   addCardModal.close();
@@ -162,6 +177,9 @@ const submitChangeForm = (inputValues) => {
       (changeUnrollButton.style.backgroundImage = `url("${inputValues.link}")`)
     )
     .then(changeProfilePictureModal.renderLoading(false))
+    .catch((err) => {
+      console.log(err);
+    })
     .finally(changeProfilePictureModal.close());
 };
 

@@ -4,14 +4,12 @@ export default class Card {
     handleCardClick,
     cardTemplateSelector,
     client,
-    deleteCard,
     handleDeleteIconClick
   ) {
     this._handleCardClick = handleCardClick;
     this._cardTemplateSelector = cardTemplateSelector;
     this._data = data;
     this._client = client;
-    this._deleteCard = deleteCard;
     this._handleDeleteIconClick = handleDeleteIconClick;
   }
 
@@ -29,11 +27,6 @@ export default class Card {
     const eventTarget = evt.target;
     eventTarget.classList.toggle("element__like-button_not-active");
   }
-
-  removeCard = (evt) => {
-    evt.target.closest("li").remove();
-    this._deleteCard(this._data._id);
-  };
 
   _checkOwner = () => {
     if (!(this._data.owner.name === this._client.name)) {
