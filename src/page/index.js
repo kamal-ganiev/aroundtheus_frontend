@@ -59,16 +59,8 @@ cardImageOverlay.setEventListeners();
 
 //////////// Remove Form Function \\\\\\\\\\\\
 
-const cardRemoveConfirmationForm = new ConfirmDeleteModal(
-  ".modal-remove",
-  submitRemoveForm
-);
+const cardRemoveConfirmationForm = new ConfirmDeleteModal(".modal-remove");
 cardRemoveConfirmationForm.setEventListeners();
-
-function submitRemoveForm(card) {
-  cardRemoveConfirmationForm.close();
-  api.removeCard(card._id);
-}
 
 //////////// Card Delete Function \\\\\\\\\\\\
 
