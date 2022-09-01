@@ -84,6 +84,18 @@ const handleDeleteCardClick = (card, data) => {
   };
 };
 
+//////////// Card Like Toggle Function \\\\\\\\\\\\
+
+const handleLikeToggle = (data, likeButton, likeCounter) => {
+  if (likeButton.classList.contains("element__like-button_not-active")) {
+    api.removeLike(data._id);
+    likeCounter.textContent = data.likes.length;
+  } else {
+    api.addLike(data._id);
+    likeCounter.textContent = data.likes.length + 1;
+  }
+};
+
 //////////// Class Calling Function \\\\\\\\\\\\
 
 const renderCard = (item) => {
@@ -92,7 +104,8 @@ const renderCard = (item) => {
     cardImageOverlay,
     ".card__template",
     userInfo.getUserInfo(),
-    handleDeleteCardClick
+    handleDeleteCardClick,
+    handleLikeToggle
   );
   cardSection(item).addItem(newCard.generateCard());
 };
