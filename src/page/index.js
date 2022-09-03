@@ -26,21 +26,28 @@ const api = new Api({
   },
 });
 
-//////////// Setting User Info \\\\\\\\\\\\
+//////////// Loading Page \\\\\\\\\\\\
 
-const userInfo = new UserInfo(".profile__name", ".profile__tag");
-
-const userAvatar = document.querySelector(".profile__avatar");
-
-api
-  .getUserInfo()
-  .then((res) => {
-    userInfo.setUserInfo({ name: res.name, tag: res.about });
-    userAvatar.style.backgroundImage = `url(${res.avatar})`;
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo({
+      name: userData.name,
+      tag: userData.about,
+      avatar: userData.avatar,
+    });
+    cardSection(cards.reverse()).renderItems();
   })
   .catch((err) => {
     console.log(err);
   });
+
+//////////// Setting User Info \\\\\\\\\\\\
+
+const userInfo = new UserInfo(
+  ".profile__name",
+  ".profile__tag",
+  ".profile__avatar"
+);
 
 //////////// Forms Validation \\\\\\\\\\\\
 
@@ -116,15 +123,6 @@ const cardSection = (data) => {
   return new Section({ items: data, renderer: renderCard }, ".elements__list");
 };
 
-api
-  .getInitialCards()
-  .then((res) => {
-    cardSection(res.reverse()).renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 //////////// Edit Popup Form \\\\\\\\\\\\
 
 function openEditModal() {
@@ -140,11 +138,13 @@ const submitEditForm = (inputValues) => {
   userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
   api
     .setUserInfo({ name: inputValues.name, about: inputValues.tag })
+    .then(editProfileModal.close())
     .catch((err) => {
       console.log(err);
     })
-    .finally(editProfileModal.renderLoading(false));
-  editProfileModal.close();
+    .finally(() => {
+      editProfileModal.renderLoading(false);
+    });
 };
 
 const editProfileModal = new ModalWithForm(".modal-edit", submitEditForm);
@@ -165,11 +165,13 @@ const submitAddForm = (inputValues) => {
         cardSection(res.reverse()).renderItems();
       });
     })
+    .then(addCardModal.close())
     .catch((err) => {
       console.log(err);
     })
-    .finally(addCardModal.renderLoading(false));
-  addCardModal.close();
+    .finally(() => {
+      addCardModal.renderLoading(false);
+    });
 };
 
 const addCardModal = new ModalWithForm(".modal-add", submitAddForm);
@@ -189,11 +191,13 @@ const submitChangeForm = (inputValues) => {
     .then(
       (changeUnrollButton.style.backgroundImage = `url("${inputValues.link}")`)
     )
-    .then(changeProfilePictureModal.renderLoading(false))
+    .then(changeProfilePictureModal.close())
     .catch((err) => {
       console.log(err);
     })
-    .finally(changeProfilePictureModal.close());
+    .finally(() => {
+      changeProfilePictureModal.renderLoading(false);
+    });
 };
 
 const changeProfilePictureModal = new ModalWithForm(
