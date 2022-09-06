@@ -32,6 +32,12 @@ export default class Api {
     }).then(this._checkResponse);
   }
 
+  getCardInfo(cardId) {
+    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+      headers: this._headers,
+    }).then(this._checkResponse);
+  }
+
   uploadNewCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",

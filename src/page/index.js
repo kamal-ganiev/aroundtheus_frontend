@@ -34,6 +34,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
       name: userData.name,
       tag: userData.about,
       avatar: userData.avatar,
+      _id: userData._id,
     });
     cardSection(cards.reverse()).renderItems();
   })
@@ -78,28 +79,67 @@ cardRemoveConfirmationForm.setEventListeners();
 
 const handleDeleteCardClick = (card, data) => {
   cardRemoveConfirmationForm.open();
-  cardRemoveConfirmationForm.setSubmitAction = () => {
-    cardRemoveConfirmationForm.close();
+  cardRemoveConfirmationForm.renderLoading(false);
+  cardRemoveConfirmationForm.handleSubmit = () => {
     api
       .removeCard(data._id)
       .then(() => {
         card.remove();
+        cardRemoveConfirmationForm.close();
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(cardRemoveConfirmationForm.renderLoading(true));
   };
 };
 
 //////////// Card Like Toggle Function \\\\\\\\\\\\
 
-const handleLikeToggle = (data, likeButton, likeCounter) => {
-  if (likeButton.classList.contains("element__like-button_not-active")) {
-    api.removeLike(data._id);
-    likeCounter.textContent = data.likes.length;
+const handleLikeToggle = (data, likeCounter, evt, notActiveCardSelector) => {
+  const eventTarget = evt.target;
+  if (!eventTarget.classList.contains(notActiveCardSelector)) {
+    api
+      .removeLike(data._id)
+      .then(() => {
+        api
+          .getInitialCards()
+          .then((res) =>
+            res.forEach((card) => {
+              if (card._id === data._id) {
+                likeCounter.textContent = card.likes.length;
+              }
+            })
+          )
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .then(eventTarget.classList.toggle(notActiveCardSelector))
+      .catch((err) => {
+        console.log(err);
+      });
   } else {
-    api.addLike(data._id);
-    likeCounter.textContent = data.likes.length + 1;
+    api
+      .addLike(data._id)
+      .then(() => {
+        api
+          .getInitialCards()
+          .then((res) =>
+            res.forEach((card) => {
+              if (card._id === data._id) {
+                likeCounter.textContent = card.likes.length;
+              }
+            })
+          )
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .then(eventTarget.classList.toggle(notActiveCardSelector))
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
 
@@ -135,10 +175,14 @@ editUnrollButton.addEventListener("click", openEditModal);
 
 const submitEditForm = (inputValues) => {
   editProfileModal.renderLoading(true);
-  userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
   api
     .setUserInfo({ name: inputValues.name, about: inputValues.tag })
-    .then(editProfileModal.close())
+    .then(() => {
+      userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
+    })
+    .then(() => {
+      editProfileModal.close();
+    })
     .catch((err) => {
       console.log(err);
     })
@@ -160,12 +204,10 @@ const submitAddForm = (inputValues) => {
       name: inputValues.title,
       link: inputValues.link,
     })
-    .then(() => {
-      api.getInitialCards().then((res) => {
-        cardSection(res.reverse()).renderItems();
-      });
+    .then((res) => {
+      renderCard(res);
+      addCardModal.close();
     })
-    .then(addCardModal.close())
     .catch((err) => {
       console.log(err);
     })
@@ -188,10 +230,19 @@ const submitChangeForm = (inputValues) => {
   changeProfilePictureModal.renderLoading(true);
   api
     .changeProfilePicture({ avatar: inputValues.link })
-    .then(
-      (changeUnrollButton.style.backgroundImage = `url("${inputValues.link}")`)
-    )
-    .then(changeProfilePictureModal.close())
+    .then(() => {
+      api
+        .getUserInfo()
+        .then((res) => {
+          changeUnrollButton.style.backgroundImage = `url("${res.avatar}")`;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .then(() => {
+      changeProfilePictureModal.close();
+    })
     .catch((err) => {
       console.log(err);
     })

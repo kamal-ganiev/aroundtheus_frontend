@@ -19,22 +19,21 @@ export default class Card {
     this._image.addEventListener("click", () =>
       this._handleCardClick.open(this._image)
     );
-    this._likeButton.addEventListener("click", this._toggleLikeButton);
-    this._likeButton.addEventListener("click", () => {
-      this._handleLikeToggle(this._data, this._likeButton, this._likeCounter);
+    this._likeButton.addEventListener("click", (evt) => {
+      this._handleLikeToggle(
+        this._data,
+        this._likeCounter,
+        evt,
+        "element__like-button_not-active"
+      );
     });
     this._removeButton.addEventListener("click", () => {
       this._handleDeleteIconClick(this._element, this._data);
     });
   }
 
-  _toggleLikeButton(evt) {
-    const eventTarget = evt.target;
-    eventTarget.classList.toggle("element__like-button_not-active");
-  }
-
   _checkOwner = () => {
-    if (!(this._data.owner.name === this._client.name)) {
+    if (!(this._data.owner._id === this._client._id)) {
       this._removeButton.remove();
     }
   };
@@ -47,7 +46,7 @@ export default class Card {
     this._image = this._element.querySelector(".element__image");
     this._likeButton = this._element.querySelector(".element__like-button");
     this._data.likes.forEach((like) => {
-      if (like.name === this._client.name) {
+      if (like._id === this._client._id) {
         this._likeButton.classList.toggle("element__like-button_not-active");
       }
     });

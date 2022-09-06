@@ -22,7 +22,7 @@ export default class ModalWithForm extends Modal {
 
   renderLoading(isLoading) {
     if (isLoading) {
-      this._button.textContent = "Searching...";
+      this._button.textContent = "Saving...";
     } else {
       this._button.textContent = this._buttonDefaultValue;
     }
