@@ -28,15 +28,21 @@ const api = new Api({
 
 //////////// Loading Page \\\\\\\\\\\\
 
+let cardSection;
+
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cards]) => {
+    cardSection = new Section(
+      { items: cards.reverse(), renderer: renderCard },
+      ".elements__list"
+    );
     userInfo.setUserInfo({
       name: userData.name,
       tag: userData.about,
       avatar: userData.avatar,
       _id: userData._id,
     });
-    cardSection(cards.reverse()).renderItems();
+    cardSection.renderItems();
   })
   .catch((err) => {
     console.log(err);
@@ -96,47 +102,22 @@ const handleDeleteCardClick = (card, data) => {
 
 //////////// Card Like Toggle Function \\\\\\\\\\\\
 
-const handleLikeToggle = (data, likeCounter, evt, notActiveCardSelector) => {
-  const eventTarget = evt.target;
-  if (!eventTarget.classList.contains(notActiveCardSelector)) {
+const handleLikeToggle = (data, cards) => {
+  if (cards.isLiked(userInfo.getUserInfo()._id)) {
     api
-      .removeLike(data._id)
-      .then(() => {
-        api
-          .getInitialCards()
-          .then((res) =>
-            res.forEach((card) => {
-              if (card._id === data._id) {
-                likeCounter.textContent = card.likes.length;
-              }
-            })
-          )
-          .catch((err) => {
-            console.log(err);
-          });
+      .addLike(data._id)
+      .then((likes) => {
+        cards.updateLikes(likes);
       })
-      .then(eventTarget.classList.toggle(notActiveCardSelector))
       .catch((err) => {
         console.log(err);
       });
   } else {
     api
-      .addLike(data._id)
-      .then(() => {
-        api
-          .getInitialCards()
-          .then((res) =>
-            res.forEach((card) => {
-              if (card._id === data._id) {
-                likeCounter.textContent = card.likes.length;
-              }
-            })
-          )
-          .catch((err) => {
-            console.log(err);
-          });
+      .removeLike(data._id)
+      .then((likes) => {
+        cards.updateLikes(likes);
       })
-      .then(eventTarget.classList.toggle(notActiveCardSelector))
       .catch((err) => {
         console.log(err);
       });
@@ -154,13 +135,7 @@ const renderCard = (item) => {
     handleDeleteCardClick,
     handleLikeToggle
   );
-  cardSection(item).addItem(newCard.generateCard());
-};
-
-//////////// Initial Cards Rendering \\\\\\\\\\\\
-
-const cardSection = (data) => {
-  return new Section({ items: data, renderer: renderCard }, ".elements__list");
+  cardSection.addItem(newCard.generateCard());
 };
 
 //////////// Edit Popup Form \\\\\\\\\\\\

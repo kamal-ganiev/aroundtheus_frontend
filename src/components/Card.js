@@ -1,3 +1,5 @@
+import { data } from "autoprefixer";
+
 export default class Card {
   constructor(
     data,
@@ -10,6 +12,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._cardTemplateSelector = cardTemplateSelector;
     this._data = data;
+    this._likes = data.likes;
     this._client = client;
     this._handleDeleteIconClick = handleDeleteIconClick;
     this._handleLikeToggle = handleLikeToggle;
@@ -19,17 +22,27 @@ export default class Card {
     this._image.addEventListener("click", () =>
       this._handleCardClick.open(this._image)
     );
-    this._likeButton.addEventListener("click", (evt) => {
-      this._handleLikeToggle(
-        this._data,
-        this._likeCounter,
-        evt,
-        "element__like-button_not-active"
-      );
+    this._likeButton.addEventListener("click", () => {
+      this._handleLikeToggle(this._data, this);
     });
     this._removeButton.addEventListener("click", () => {
       this._handleDeleteIconClick(this._element, this._data);
     });
+  }
+
+  updateLikes(newLike) {
+    this._likeCounter.textContent = newLike.likes.length;
+    this._likes = newLike.likes;
+  }
+
+  isLiked(client) {
+    if (this._likes.some((like) => like._id === client)) {
+      this._likeButton.classList.add("element__like-button_not-active");
+      return false;
+    } else {
+      this._likeButton.classList.remove("element__like-button_not-active");
+      return true;
+    }
   }
 
   _checkOwner = () => {
