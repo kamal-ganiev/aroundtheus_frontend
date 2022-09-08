@@ -37,12 +37,18 @@ export default class Card {
 
   isLiked(client) {
     if (this._likes.some((like) => like._id === client)) {
-      this._likeButton.classList.add("element__like-button_not-active");
       return false;
     } else {
-      this._likeButton.classList.remove("element__like-button_not-active");
       return true;
     }
+  }
+
+  addLike() {
+    this._likeButton.classList.remove("element__like-button_not-active");
+  }
+
+  removeLike() {
+    this._likeButton.classList.add("element__like-button_not-active");
   }
 
   _checkOwner = () => {

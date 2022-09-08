@@ -36,11 +36,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
       { items: cards.reverse(), renderer: renderCard },
       ".elements__list"
     );
-    userInfo.setUserInfo({
-      name: userData.name,
-      tag: userData.about,
-      _id: userData._id,
-    });
+    userInfo.setUserInfo(userData);
     userInfo.setUserAvatar({ avatar: userData.avatar });
     cardSection.renderItems();
   })
@@ -96,18 +92,21 @@ const handleDeleteCardClick = (card, data) => {
       .catch((err) => {
         console.log(err);
       })
-      .finally(cardRemoveConfirmationForm.renderLoading(true));
+      .finally(() => {
+        cardRemoveConfirmationForm.renderLoading(true);
+      });
   };
 };
 
 //////////// Card Like Toggle Function \\\\\\\\\\\\
 
-const handleLikeToggle = (data, cards) => {
-  if (cards.isLiked(userInfo.getUserInfo()._id)) {
+const handleLikeToggle = (data, card) => {
+  if (card.isLiked(userInfo.getUserInfo()._id)) {
     api
       .addLike(data._id)
       .then((likes) => {
-        cards.updateLikes(likes);
+        card.updateLikes(likes);
+        card.addLike();
       })
       .catch((err) => {
         console.log(err);
@@ -116,7 +115,8 @@ const handleLikeToggle = (data, cards) => {
     api
       .removeLike(data._id)
       .then((likes) => {
-        cards.updateLikes(likes);
+        card.updateLikes(likes);
+        card.removeLike();
       })
       .catch((err) => {
         console.log(err);
@@ -152,10 +152,8 @@ const submitEditForm = (inputValues) => {
   editProfileModal.renderLoading(true);
   api
     .setUserInfo({ name: inputValues.name, about: inputValues.tag })
-    .then(() => {
-      userInfo.setUserInfo({ name: inputValues.name, tag: inputValues.tag });
-    })
-    .then(() => {
+    .then((userData) => {
+      userInfo.setUserInfo(userData);
       editProfileModal.close();
     })
     .catch((err) => {
@@ -205,17 +203,8 @@ const submitChangeForm = (inputValues) => {
   changeProfilePictureModal.renderLoading(true);
   api
     .changeProfilePicture({ avatar: inputValues.link })
-    .then(() => {
-      api
-        .getUserInfo()
-        .then((res) => {
-          changeUnrollButton.style.backgroundImage = `url("${res.avatar}")`;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .then(() => {
+    .then((userData) => {
+      changeUnrollButton.style.backgroundImage = `url("${userData.avatar}")`;
       changeProfilePictureModal.close();
     })
     .catch((err) => {
