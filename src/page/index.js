@@ -81,8 +81,8 @@ cardRemoveConfirmationForm.setEventListeners();
 
 const handleDeleteCardClick = (card, data) => {
   cardRemoveConfirmationForm.open();
-  cardRemoveConfirmationForm.renderLoading(false);
   cardRemoveConfirmationForm.handleSubmit = () => {
+    cardRemoveConfirmationForm.renderLoading(true);
     api
       .removeCard(data._id)
       .then(() => {
@@ -93,7 +93,7 @@ const handleDeleteCardClick = (card, data) => {
         console.log(err);
       })
       .finally(() => {
-        cardRemoveConfirmationForm.renderLoading(true);
+        cardRemoveConfirmationForm.renderLoading(false);
       });
   };
 };
@@ -204,7 +204,7 @@ const submitChangeForm = (inputValues) => {
   api
     .changeProfilePicture({ avatar: inputValues.link })
     .then((userData) => {
-      changeUnrollButton.style.backgroundImage = `url("${userData.avatar}")`;
+      userInfo.setUserAvatar(userData);
       changeProfilePictureModal.close();
     })
     .catch((err) => {
