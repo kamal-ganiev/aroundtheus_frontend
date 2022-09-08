@@ -39,9 +39,9 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     userInfo.setUserInfo({
       name: userData.name,
       tag: userData.about,
-      avatar: userData.avatar,
       _id: userData._id,
     });
+    userInfo.setUserAvatar({ avatar: userData.avatar });
     cardSection.renderItems();
   })
   .catch((err) => {
